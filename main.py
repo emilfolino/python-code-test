@@ -1,164 +1,177 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
-'''
-Claudio presents the user with a menu 
-and checks the choices to call the corresponding functions
-'''
+""" Marvin chatbot"""
 
 import marvin1
 import marvin2
 import inventory
 
-claudio_image = r'''
-      c~~p ,---------. 
- ,---'oo  )           \
-( O O                  )/
- `=^='                 /
-       \    ,     .   /
-       \\  |-----'|  /
-       ||__|    |_|__|
-'''
+marvin_image = r"""
+          _____
+         /_____\
+    ____[\`---'/]____
+   /\ #\ \_____/ /# /\
+  /  \# \_.---._/ #/  \
+ /   /|\  |   |  /|\   \
+/___/ | | |   | | | \___\
+|  |  | | |---| | |  |  |
+|__|  \_| |_#_| |_/  |__|
+//\\  <\ _//^\\_ />  //\\
+\||/  |\//// \\\\/|  \||/
+      |   |   |   |
+      |---|   |---|
+      |---|   |---|
+      |   |   |   |
+      |___|   |___|
+      /   \   /   \
+     |_____| |_____|
+     |HHHHH| |HHHHH|
+"""
 
 def main():
-    '''
-    Continuously checks the users choices
-    and calls the corresponding functions until q is pressed
-    Also lets user keep an inventory of items
-    '''
+    """ main program loop"""
 
     bag = []
-
+    
     while True:
-        print(chr(27) + '[2J' + chr(27) + '[;H')
-        print(claudio_image)
-        print('Hey there, I am Claudio - the omnipotent hippo. Pleased to eat you! ')
-        print('1) Present yourself to Claudio.')
-        print('2) Convert celsius to fahrenheit.')
-        print('3) Repeat a word (it really is a lot of fun).')
-        print('4) Calculate sum and mean.')
-        print('5) Spell out a word.')
-        print('6) Detect isogram (it is definitely useful).')
-        print('7) Smaller, larger or just the same (trust me - you will want to know).')
-        print('8) Translate a word to The Robber Language.')
-        print('9) Randomly re-order the letters of a string.')
-        print('10) Create an acronym.')
-        print('11) Mask the characters of a string.')
-        print('12) Get all indexes of a substring.')
-        print('a1) Check if all characters of a word are in another.')
-        print('a2) Double a number until it contains al the digits 0-9.')
-        print('a3) Replace tabs with spaces.')
-        print('a4) Create a catchy word or name combination (portmanteau).')
-        print('a5) Score a game.')
-        print('b1) Grade test points.')
-        print('b2) Compare strings.')
-        print('q) Quit.')
-        print('\n')
-        print('Try out my "inv" commands!')
-        print('------------')
+        print(chr(27) + "[2J" + chr(27) + "[;H")
+        print(marvin_image)
+        print("Hi, I'm Marvin. I know it all. What can I do you for?")
+        print("1) Present yourself to Marvin.")
+        print("2) Convert Celsius to Fahrenheit.")
+        print("3) Word muliplication.")
+        print("4) Sum and mean.")
+        print("5) String manipulation.")
+        print("6) Isogram checker.")
+        print("7) Number comparison.")
+        print("8) Roeverspraak-translator.")
+        print("9) Randomize string.")
+        print("10) Generate acronym.")
+        print("11) Mask string.")
+        print("12) Find all indexes.")
+        print("Extra DLC:")
+        print("a1) String comparison")
+        print("a2) All-digit Doubler")
+        print("a3) Tab-to-space converter.")
+        print("a4) Name combiner.")
+        print("a5) Play a game.")
+        print("q) Quit.")
+        print('\n\nTry out my "inv" commands!')
 
-        choice = input('--> ')
+        choice = input("--> ")
 
-        if choice == 'q':
-            print('Arrivederci and Goodbye! - Welcome back anytime!')
+        if choice == "q":
+            print("Bye, bye - and welcome back anytime!")
             break
 
-        elif choice == '1':
+        elif choice == "1":
             marvin1.greet()
 
-        elif choice == '2':
+        elif choice == "2":
             marvin1.celcius_to_farenheit()
 
-        elif choice == '3':
+        elif choice == "3":
             marvin1.word_manipulation()
 
-        elif choice == '4':
+        elif choice == "4":
             marvin1.sum_and_average()
 
-        elif choice == '5':
+        elif choice == "5":
             marvin1.hyphen_string()
 
-        elif choice == '6':
+        elif choice == "6":
             marvin1.is_isogram()
 
-        elif choice == '7':
+        elif choice == "7":
             marvin1.compare_numbers()
 
-        elif choice == '8':
-            marvin1.robber_lanquage()
+        elif choice == "8":
+            marvin1.robber_language()
+
+        elif choice == "9":
+            string = input("Skriv ett ord eller en mening att blanda: ")
+            print(marvin2.randomize_string(string))
+
+        elif choice == "10":
+            string = input("Skriv en sträng att akronymisera: ")
+            print(marvin2.get_acronym(string))
+
+        elif choice == "11":
+            string = input("Skriv en sträng att maskera: ")
+            print(marvin2.mask_string(string))
         
-        elif choice == 'a1':
-            marvin1.compare_strings()
+        elif choice == "12":
+            string = input("Skriv en lång sträng: ")
+            substring = input("Skriv en kort sträng: ")
+            print(marvin2.find_all_indexes(string, substring))
 
-        elif choice == 'a2':
-            marvin1.double_number()
+        elif choice == "a1":
+            marvin1.string_comparison()
 
-        elif choice == 'a3':
-            marvin1.tabs_to_spaces()
-        
-        elif choice == 'a4':
-            marvin1.portmanteau()
+        elif choice == "a2":
+            marvin1.all_digit_doubler()
 
-        elif choice == 'a5':
-            marvin1.score_game()
+        elif choice == "a3":
+            marvin1.tab_to_space_converter()
 
-        elif choice == '9':
-            my_original_string = input('Enter a string: ')
-            print(marvin2.randomize_string(my_original_string))
+        elif choice == "a4":
+            marvin1.name_combiner()
 
-        elif choice == '10':
-            my_full_string = input('Enter a string: ')
-            print(marvin2.get_acronym(my_full_string))
+        elif choice == "a5":
+            marvin1.string_game()
 
-        elif choice == '11':
-            my_plain_string = input('Enter a string: ')
-            print(marvin2.mask_string(my_plain_string))
+        elif choice == "b1":
+            max_points = input("Ange maxpoängen: ")
+            points = input("Ange dina poäng: ")
+            print(marvin2.points_to_grade(max_points, points))
 
-        elif choice == '12':
-            my_super_string = input('Enter a string: ')
-            my_sub_string = input('And a substring to look for: ')
-            print(marvin2.find_all_indexes(my_super_string, my_sub_string))
-
-        elif choice == 'b1':
-            my_max_points = input('Max points: ')
-            my_points = input('Your points: ')
-            print(marvin2.points_to_grade(my_max_points, my_points))
-
-        elif choice == 'b2':
-            my_first_str = input("Enter a first string to compare against: ")
-            my_second_str = input("Enter a second string: ")
-            my_third_str = input("Enter a third string: ")
-            my_fourth_str = input("Enter a fourth string: ")
-            print(marvin2.has_strings(my_first_str, my_second_str, my_third_str, my_fourth_str))
-
-        elif choice.startswith('inv'):
-            # in cases other than the ones described in the assignment, assume inputs are good
-            commands = choice.split(' ')
-
-            if len(commands) == 1:
-                inventory.inventory(bag)
-
-            elif commands[1] == 'pick':
-                if len(commands) == 4:
-                    inventory.pick(bag, commands[2], commands[3])         
-                elif len(commands) == 3:
-                    inventory.pick(bag, commands[2])
-
-            elif commands[1] == 'drop':
-                inventory.drop(bag, commands[2])
-
-            elif commands[1] == 'swap':
-                inventory.swap(bag, commands[2], commands[3])            
-
-            elif commands[1].isdigit() and commands[2].isdigit():
-                inventory.inventory(bag, commands[1], commands[2])
-
-            else:
-                print('Invalid inventory command.')
+        elif choice == "b2":
+            string1 = input("Ange sträng 1/4: ")
+            string2 = input("Ange sträng 2/4: ")
+            string3 = input("Ange sträng 3/4: ")
+            string4 = input("Ange sträng 4/4: ")
+            print(marvin2.has_strings(string1, string2, string3, string4))
 
         else:
-            print('That is not a valid choice. You can only choose from the menu.')
+            choice_list = choice.split()
+            if choice_list[0] == "inv":
+                #check if simple inv
+                if len(choice_list) == 1:
+                    inventory.inventory(bag)
+                
+                #inv pick
+                elif choice_list[1] == "pick":
+                    item = choice_list[2] #mus,tjur
+                    if len(choice_list) > 3:
+                        index = choice_list[3]
+                        bag = inventory.pick(bag, item, index)
+                    else:
+                        bag = inventory.pick(bag, item)
 
-        input('\nPress enter to continue...')
+                #inv drop
+                elif choice_list[1] == "drop":
+                    item = choice_list[2]
+                    bag = inventory.drop(bag, item)
 
-if __name__ == '__main__':
+                #inv swap 
+                elif choice_list[1] == "swap":
+                    item1 = choice_list[2]
+                    item2 = choice_list[3]
+                    bag = inventory.swap(bag, item1, item2)
+
+                #complex inv
+                else:
+                    try:
+                        start = int(choice_list[1])
+                        stop = int(choice_list[2])
+                        inventory.inventory(bag, start, stop)
+                    except (ValueError, IndexError):
+                        print("Invalid command")
+            else:
+                print("Invalid command")
+
+        input("\nPress enter to continue...")
+
+if __name__ == "__main__":
     main()

@@ -1,84 +1,55 @@
-#!/usr/bin/env python3
+""" Marvins backback - list functions"""
 
-'''
-Inventory functions
-'''
-
-def pick(myInventory, item, indx=None):
-    '''
-    Puts item(s) into inventory
-    '''
-    items = item.split(',')
-
-    if indx is not None:
-        indx = int(indx)
-
-        if indx > len(myInventory):
-            print(f'Error! Index {indx} is out of range.')    
-        
-        else:
-            myInventory[:] = myInventory[:indx] + items + myInventory[indx:]
-            print(f'Added {" and ".join(items)} at index {indx}')
-
+def inventory(backpack: list, start = None, stop = None):
+    """ prints the number of items in the backpack and their names"""
+    if start is None and stop is None:
+        print("The backpack contains {} items:".format(len(backpack)))
+        print(backpack)
     else:
-        myInventory += items
-        print(f'Added {" and ".join(items)} to inventory')
+        print(", ".join(backpack[start:stop]))
 
-    return myInventory
+def pick(backpack: list, item, index_str: int = None):
+    """ puts item in backpack"""
+    # 1. do index things
+    index=0
+    if index_str is not None:
+        index = int(index_str)
+        if index > len(backpack):
+            print("Error: index {} too high".format(index))
+            return backpack
+    elif index_str is None: 
+        index = len(backpack)
+    
+    # 2. insert item(s)
+    items = item.split(",")
+    i = 0
+    for e in items:
+        backpack.insert(index + i, e)
+        i += 1
+    print("You added {} to the bag at index {}.".format(items, index))
+    return backpack
 
-def inventory(myInventory, start=0, end=None):
-    '''
-    Displays inventory
-    '''
-    if end is None:
-        end = len(myInventory)
-    else:
-        start = int(start)
-        end = int(end)
-
-    print(f'Inventory has {len(myInventory)} items: {myInventory[start:end]}')
-
-def drop(myInventory, item):
-    '''
-    Removes item from inventory
-    '''
+def drop(backpack: list, item):
+    """ drops item from backpack"""
     try:
-        myInventory.remove(item)
-        print(f'Removed {item} from inventory')
-
+        backpack.remove(item)
+        print("{} was dropped from Marvins backpack".format(item))
+        return backpack
     except ValueError:
-        print(f'Error! Could not find {item} in inventory')
+        print("Error: No {} found in Marvins backpack".format(item))
+        return backpack
 
-    return myInventory
-
-def swap(myInventory, itemA, itemB):
-    '''
-    Swaps items in inventory
-    '''
-    badItems = []
-    testInventory = myInventory[:]
-
-    # check if items exist
-    if not itemA in testInventory:
-        badItems.append(itemA)
-    else:
-        testInventory.remove(itemA)
-
-    if not itemB in testInventory:
-        badItems.append(itemB)
-
-    # if no bad items, do the swap
-    if badItems == []:
-        indxA = myInventory.index(itemA)
-        indxB = myInventory.index(itemB)
-        
-        temp = myInventory[indxA]
-        myInventory[indxA] = myInventory[indxB]
-        myInventory[indxB] = temp
-
-        print(f'Swapped {itemA} and {itemB}')
-
-    else:
-        print(f'Error! Could not find {" or ".join(badItems)} in inventory')
-
-    return myInventory
+def swap(backpack: list, item1, item2):
+    """ swaps positions of item 1 and 2 in backpack"""
+    indexes = []
+    for i, item in enumerate(backpack):
+        if item in (item1,item2):
+            indexes.append(i)
+    if len(indexes) < 2:
+        print("Error: One or both of the items ({}, {}) not found in Marvins backpack".format(item1, item2))
+        return backpack
+    temp = backpack[indexes[0]]
+    backpack[indexes[0]] = backpack[indexes[1]]
+    backpack[indexes[1]] = temp 
+    print("You swapped {} and {}.".format(item1, item2))
+    return backpack

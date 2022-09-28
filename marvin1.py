@@ -1,248 +1,216 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
-'''
-This is the Marvin2-assignment old functions module 
-'''
+""" Functions for marvin 1 """
 
 import marvin2
 
-def claudio_says(answer):
-    '''
-    Prints Claudio saying the answers
-    '''
-    print('\nClaudio says:\n')
-    print(answer)
-    print('What more can I do for you?!')
-
 def greet():
-    '''
-    Greets the name given by the user
-    '''
-    name = input('What is your name? ') 
-    claudio_says(f'Cool dude, I once knew a dodo named {name}!')
+    """ greeting """
+    name = input("What is your name? ")
+    print("\nMarvin says:\n")
+    print("Gah! The dark lord %s has come!" % name)
+    print("Tell me what I need to do to please you?!")
 
 def celcius_to_farenheit():
-    '''
-    Converts celsius to farenheit
-    '''
-    celsius = float(input('How many degrees °C are we talking? '))
-    fahrenheit = round(celsius * 9 / 5 + 32, 2)
-    claudio_says(f'That is {fahrenheit} °F!')
+    """ converts units """
+    celsius = input("Please tell me the temperature in Celsius. ")
+    fahrenheit = round((float(celsius) * 9 / 5 + 32),2)
+    print(celsius, "degrees Celsius is", fahrenheit, "degrees Fahrenheit.")
 
 def word_manipulation():
-    '''
-    Calls multiply_str to repeat a string
-    '''
-    word_to_repeat = input('Let\'s hear it! What\'s your special word? ')
-    num_times = int(input('And how many times do you whish for me to reapeat it? ')) 
-    claudio_says(marvin2.multiply_str(word_to_repeat, num_times))
+    """ multiplies words """
+    word = input("Please type a word: ")
+    number = input("Please type a number: ")
+
+    result = marvin2.multiply_str(word, number)
+    
+    print(result)
 
 def sum_and_average():
-    '''
-    Calculates the sum and average of all numbers given by the user
-    '''
+    """ prints sum and mean """
     total = 0
-    count = 0
-
-    print('Feed me your numbers (one at a time)! Enter "done" when you are ... well, done!')
+    i = 0
     while True:
-        answer = input('')
-        
-        if answer == 'done':
+        number = input("Please type a number or end with 'done': ")
+        if number == 'done':
             break
+        i += 1
+        total = round(total + float(number), 2)
+        mean = round(total / i, 2)
 
-        try:
-            num = float(answer)
-
-        except ValueError:
-            ('Oyy only numbers! I am a picky eater, okey?')
-            continue
-
-        total += num
-        count +=1
-
-    average = total/count
-
-    claudio_says(f'The sum of all the numbers is {total:.2f} and the average is {average:.2f}.')
+    print('The sum of all numbers is %s and the mean is %s' % (total, mean))
 
 def hyphen_string():
-    '''
-    Join the letters of a string with hyphens
-    '''
-    word_to_spell = input('What word do you want me to spell out for you? ')  
-    letters = []
-    
-    # for simplicity, use enumerate to get both the current iteration and item
-    for count, letter in enumerate(word_to_spell):
-        letters.append(letter * (count + 1)) 
-    
-    new_string = '-'.join(letters)
+    """ manipulates a word into characters and hyphens """
+    string = input("Please enter a string: ")
+    new_string = ''
+    i = 1
+    first = True
+    for char in string:
+        if first:
+            new_string += char * i
+            first = False
+        else:
+            new_string += "-" + char * i
+        i += 1
 
-    claudio_says(new_string)
+    print(new_string)
 
 def is_isogram():
-    '''
-    Checks whether a string is an isogram or not
-    '''
-    maybe_isogram = input('So what is this could-be-isogram? ')
-    memory = ''
-    isogram_or_not = 'Match!'
-
-    for letter in maybe_isogram:
-        if letter in memory:
-            isogram_or_not = 'No match!'
+    """ checks if a word is an isogram """
+    word = input("Please enter a word to check if it's an isogram: ")
+    iso = "No match!"
+    for char1 in word:
+        x = 0
+        for char2 in word:
+            if char1 == char2:
+                x += 1
+        if x > 1:
+            iso = "No match!"
             break
-        memory += letter
+        iso = "Match!"
 
-    claudio_says(isogram_or_not)
+    print(iso)
 
 def compare_numbers():
-    '''
-    Continuously compares two consecutive numbers
-    '''
-    last = None
-
-    print('Enter a number to start with ("done" to exit): ')
+    """ compares two numbers """
+    num1 = input("Please input a number: ")
     while True:
-        answer = input('')
-
-        if answer == 'done':
+        num2 = input("Please input another number, or 'done' to stop: ")
+        if num2 == 'done':
             break
-
         try:
-            current_num = int(answer)
+            num1 = float(num1)
+            num2 = float(num2)
+            if num2 < num1:
+                print("smaller!")
+            elif num2 > num1:
+                print("larger!")
+            elif num2 == num1:
+                print("same!")
+            num1 = num2
         except ValueError:
-            print('not a number!')
-            continue
-
-        if last is None:
-            print('Enter another one to compare it to: ')
-            last = current_num
-            continue
-
-        if current_num < last:
-            print('smaller!')
-        elif current_num == last:
-            print('same!')
-        else:
-            print('larger!')
-
-        print('Enter another one to compare to the last: ')
-        last = current_num
-    
-    print('\nWhat more can I do for you?!')
+            print("not a number!")
 
 def robber_language():
-    '''
-    Translates a string to the robber language
-    '''
-    consonants_sv = 'bcdfghjklmnpqrstvwxz'
-    word_robber = ''
+    """ translates to robber language """
+    consonants = "bcdfghjklmnpqrstvwxz"
+    word = input("Please input a word to translate: ").lower()
+    translated = ''
+    for char in word:
+        translated += char
+        if char in consonants:
+            translated += 'o' + char            
 
-    word = input('Enter a word: ').lower()
+    print(translated)
 
-    for letter in word:
-        if letter in consonants_sv:
-            word_robber += letter + 'o' + letter
+def string_comparison():
+    """ checks if all characters in one string is in another """
+    string1 = input("Please enter a string: ")
+    string2 = input("Please enter another string: ")
+    result = "Match!"
+    for char in string2:    
+        if char not in string1:
+            result = "No match!"
+            break
+        numchars1 = 0
+        numchars2 = 0
+        for char2 in string1:
+            if char2 == char:
+                numchars1 += 1
+        for char2 in string2:
+            if char2 == char:
+                numchars2 += 1
+        if numchars2 > numchars1:
+            result = "No match!"
+            break
+                    
+    print(result)
+
+def all_digit_doubler():
+    """ doubles a number until it contains all digits """
+    number = int(input("Please enter a number: "))
+    stop = int(input("Please enter maximum number of tries: "))
+
+    i=0
+    done = False
+    while not done:
+        if i >= stop:
+            i = -1
+            break
+        for digit in range(10):
+            if str(digit) not in str(number):
+                number *= 2
+                i += 1
+                break
+            elif digit == 9:
+                done = True
+                            
+    print('Answer:', i, 'times')
+
+def tab_to_space_converter():
+    """ converts tab to space """
+    old_string = input("Please enter a string with tabs: ")
+    new_string = ''
+    for char in old_string:
+        if char == '\t':
+            new_string += '   '
         else:
-            word_robber += letter
+            new_string += char
+    
+    print(new_string)
 
-    claudio_says(word_robber)
+def name_combiner():
+    """ combines two names into one"""
+    name1 = input("Please enter the first name:")        
+    name2 = input("Please enter the second name:") 
 
-def compare_strings():
-    '''
-    Checks whether all chacacters of the second string are in the first one
-    '''
-    is_match = 'Match!'
-
-    string1 = input('Enter a word: ')
-    string2 = input('Enter another: ')
-
-    chars_str1 = list(string1)
-
-    for letter in string2:
-        if letter not in chars_str1:
-            is_match = 'No match!'
-            break
-        chars_str1.remove(letter)
-
-    claudio_says(is_match)
-
-def double_number():
-    '''
-    Iteratively doubles a number until it contains all digits 0-9
-    '''
-    unique_digits = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'}
-    tries = -1
-
-    my_num = int(input('What number to start with? '))
-    max_tries = int(input('How many tries? '))
-
-    for i in range(0, max_tries + 1):
-        my_digits = set(str(my_num))
-
-        if unique_digits.issubset(my_digits):
-            tries = i
-            break
-
-        my_num *= 2
-
-    claudio_says(f'Answer: {tries} times')
-
-def tabs_to_spaces():
-    '''
-    Replaces all tabs in a string with three blank spaces
-    '''
-    word_tabs = input('Enter a word (must contain at least one tab): ')
-    word_spaces = word_tabs.replace('\t', '   ')
-    claudio_says(word_spaces)
-
-def portmanteau():
-    '''
-    Combines two words 
-    '''
     vowels = 'aeiouy'
 
-    name1 = input('Enter a name (or word): ')
-    name2 = input('Enter another name (or word): ')
-
-    part1 = ''
-    part2 = ''
-
-    for i, letter in enumerate(name1):
-        if letter in vowels:
-            part1 = name1[:i]
+    new_name1 = ''
+    for char in name1:
+        if char in vowels:
             break
-
-    for i, letter in enumerate(name2):
-        if letter in vowels:
-            part2 = name2[i:]
-            break
-
-    claudio_says(part1 + part2)
-
-def score_game():
-    '''
-    Calculates and outputs players final scores
-    '''
-    score_dict = {}
-
-    score_str = input('Enter a string of players and their scores: ')
-
-    # look at one player-score pair at a time
-    for i in range(0, len(score_str), 2):
-        player = score_str[i]
-        score = int(score_str[i+1])
-
-        # check if points should be subtracted or added
-        if player.isupper():
-            score_dict[player.lower()] = score_dict.get(player.lower(), 0) - score
         else:
-            score_dict[player] = score_dict.get(player, 0) + score
-    
-    # make a nice string with results
-    result_str = ''
-    for key, value in score_dict.items():
-        result_str += key + ' ' + str(value) + ', '
+            new_name1 += char
 
-    claudio_says(f'Final score: {result_str[:-2]}')
+    new_name2 = ''
+    i = 0
+    while i < len(name2):
+        if name2[i] in vowels:
+            new_name2 = name2[i:]
+            break
+        else:
+            i += 1
+
+    print(new_name1 + new_name2)
+
+def string_game():
+    """ a game using a string """
+    player_input = input("Please enter a long string, alternating between letters and numbers, "
+                            "where the letters can be lower- or uppercase.")          
+
+    result = ''
+
+    first = True
+    for char in player_input:
+        if char.isalpha():
+            if char.lower() in result:
+                continue
+            i = 1
+            score = 0
+            for char2 in player_input:
+                if char2.lower() == char.lower():
+                    if char2.islower():
+                        score += int(player_input[i])
+                    elif char2.isupper():
+                        score -= int(player_input[i])
+                i += 1
+            if first:
+                result += char.lower() + ' ' + str(score)
+                first = False
+            else:
+                result += ', ' + char.lower() + ' ' + str(score) 
+
+    print (result)

@@ -1,90 +1,78 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
-'''
-This is the Marvin2-assignment new functions module 
-'''
+""" Functions for marvin 2 """
 
 import random
 
-def randomize_string(original_string):
-    '''
-    Randomly re-orders the letters in a string
-    '''
-    random_indices = random.sample(range(0, len(original_string)), len(original_string))
-    
-    new_string = ''
-    for i in random_indices:
-        new_string += original_string[i]
+def randomize_string(string):
+    """ shuffles a string """
+    l = list(string)
+    random.shuffle(l)
+    shuffled = ''.join(l)
+    return string + " --> " + shuffled 
 
-    return f'{original_string} --> {new_string}'
+def get_acronym(string):
+    """ creates an acronym using the uppercase letters """
+    result = ""
+    for char in string:
+        if char.isupper():
+            result += char
+    return result
 
-def get_acronym(full_string):
-    '''
-    Creates an acronym from all upper case letters in a string
-    '''
-    acronym = ''
-    for letter in full_string:
-        if letter.isupper():
-            acronym += letter
-    return acronym
+def multiply_str(string, integer):
+    """ multiplies a string """
+    return string * integer
 
-def mask_string(plain_string):
-    '''
-    Masks all but the last four characters of a string
-    '''
-    hashtags = multiply_str('#', len(plain_string) - 4)
-    return hashtags + plain_string[-4:]
-    
-def multiply_str(my_string, times):
-    '''
-    Repeats a string
-    '''
-    return my_string * times
+def mask_string(string):
+    """ masks all but the last 4 indices of a string """
+    masked_string = '#'
+    hash_int = len(string) - 4
+    masked_string = multiply_str(masked_string, hash_int)
 
-def find_all_indexes(super_string, sub_string):
-    '''
-    Finds all indices of the substring
-    '''
-    indices = ''
+    for i in range(-4, 0):
+        masked_string += string[i]
+
+    return masked_string
+
+def find_all_indexes(string, substring):
+    """ returns the indexes where a substring can be found in a string"""
+    result = ""
+    done = False
+    first = True
     start = 0
-    while True:
+    while not done:
         try:
-            indx = super_string.index(sub_string, start)
+            index = string.index(substring, start)
+            if first:
+                result += str(index)
+                first = False
+            else:
+                result += ',' + str(index)
+            start = index + 1
         except ValueError:
-            break
-        indices += f'{indx},'
-        start = indx + len(sub_string)
-
-    return indices[:-1]
-
+            done = True
+    return result
+    
 def points_to_grade(max_points, points):
-    '''
-    Gives a grade based on percentage of max points
-    '''
-    grade_percent = int(points) / int(max_points) * 100
-    grade_str = ''
-    if grade_percent >= 90:
-        grade_str = 'A'
-    elif grade_percent >= 80:
-        grade_str = 'B'
-    elif grade_percent >= 70:
-        grade_str = 'C'
-    elif grade_percent >= 60:
-        grade_str = 'D'
+    """ gets the grade from a given point score"""
+    percent = int(points) / int(max_points) * 100
+    if percent >= 90:
+        score = 'A'
+    elif percent >= 80:
+        score = 'B'
+    elif percent >= 70:
+        score = 'C'
+    elif percent >= 60:
+        score = 'D'
     else:
-        grade_str = 'F'
+        score = 'F'
+    return 'score: ' + score
 
-    return f'score: {grade_str}'
-
-def has_strings(first_str, second_str, third_str, fourth_str):
-    '''
-    Compares the first string to the other
-    '''
-    is_match = 'No match'
-
-    if (first_str.startswith(second_str)
-        and third_str in first_str
-        and first_str.endswith(fourth_str)):
-        is_match = 'Match'
-
-    return is_match
+def has_strings(string1, string2, string3, string4):
+    """ checks if str1 begins with str2, contains str3 and ends with str4"""
+    result = "No match"
+    if string1.startswith(string2) and string3 in string1 and string1.endswith(string4):
+        result = "Match"
+    return result
+    
